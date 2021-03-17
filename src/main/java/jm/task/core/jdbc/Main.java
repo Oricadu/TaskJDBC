@@ -1,34 +1,35 @@
 package jm.task.core.jdbc;
 
 
+import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.Util;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class Main {
-    public static final String URL = "jdbc:mysql://localhost:3307/usersdatabase?autoReconnect=true&useSSL=false";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "111111";
-
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
-        Connection connection;
 
-        try {
+        UserDaoJDBCImpl userService = new UserDaoJDBCImpl();
 
-            connection = DriverManager.getConnection(
-                    URL,
-                    USERNAME,
-                    PASSWORD);
-            if (!connection.isClosed()) {
-                connection.close();
-            }
+        userService.createUsersTable();
 
-            System.out.println("Connection successful");
+        userService.saveUser("Barack ", "Obama", (byte) 59);
+        userService.saveUser("Michelle", "Obama", (byte) 57);
+        userService.saveUser("Malia", "Obama", (byte) 22);
+        userService.saveUser("Sasha", "Obama", (byte) 19);
 
-        } catch (SQLException e) {
-            System.err.println("Connection failed");
+        for (User user : userService.getAllUsers()) {
+            System.out.println(user.toString());
         }
+
+        userService.cleanUsersTable();
+
+        userService.dropUsersTable();
     }
 }
