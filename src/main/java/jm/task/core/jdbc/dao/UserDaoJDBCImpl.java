@@ -9,7 +9,6 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private List<User> users = new ArrayList<>();
 
     public UserDaoJDBCImpl() {
 
@@ -66,6 +65,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
+
         String query = "DELETE FROM users WHERE ID = ?;";
 
         try (Connection connection = Util.openConnection();
@@ -84,6 +84,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
+
+        List<User> users = new ArrayList<>();
+
         String query = "SELECT * FROM `users`";
 
         try (Connection connection = Util.openConnection()) {
