@@ -66,10 +66,6 @@ public class UserDaoHibernateImpl implements UserDao {
                 "",
                 "Failed to get a list users");
 
-
-
-
-
     }
 
     @Override
