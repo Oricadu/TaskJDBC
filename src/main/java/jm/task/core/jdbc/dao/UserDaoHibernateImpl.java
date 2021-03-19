@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,16 +86,22 @@ public class UserDaoHibernateImpl implements UserDao {
                                             String failedMessage) {
         T result = null;
 
+        Transaction transaction = null;
+
         try (Session session = Util.getSessionFactory().getCurrentSession()){
 
             session.beginTransaction();
 
             result = function.apply(session);
 
-            session.getTransaction().commit();
+            transaction = session.getTransaction();
+            transaction.commit();
 
             System.out.println(successMessage);
         } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             System.err.println(failedMessage);
             System.err.println(e.getMessage());
 

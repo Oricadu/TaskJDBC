@@ -19,7 +19,6 @@ public class Util {
 
     private static SessionFactory sessionFactory = null;
 
-
     public static Connection openConnection() throws SQLException {
         // реализуйте настройку соеденения с БД
         Connection connection;
@@ -40,27 +39,18 @@ public class Util {
     }
 
     public static SessionFactory configurationHibernate() {
-        /*Configuration cfg = new Configuration()
-                *//*.addClass(org.hibernate.auction.Item.class)
-                .addClass(org.hibernate.auction.Bid.class)*//*
-                .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
-                .setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/test")
-                .setProperty("hibernate.order_updates", "true");*/
 
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
 
-                // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 settings.put(Environment.URL, URL);
                 settings.put(Environment.USER, USERNAME);
                 settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-
                 settings.put(Environment.SHOW_SQL, "true");
-
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
                 //settings.put(Environment.HBM2DDL_AUTO, "create-drop");
